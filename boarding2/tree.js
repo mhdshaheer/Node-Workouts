@@ -127,7 +127,7 @@ class Tree {
       return false;
     }
     return (
-      this.isBst(root.left, min, root) &&
+      this.isBst(root.left, min, root.value) &&
       this.isBst(root.right, root.value, max)
     );
   }
@@ -145,6 +145,23 @@ class Tree {
         queue.push(curr.right);
       }
     }
+  }
+  getDepth(root) {
+    if (!root) return 0;
+    const left = this.getDepth(root.left);
+    const right = this.getDepth(root.right);
+
+    return Math.max(left, right) + 1;
+  }
+  isPerfect(root, depth = this.getDepth(root), level = 1) {
+    if (!root) return true;
+    if (!root.left && !root.right) return depth == level;
+    if (!root.left || !root.right) return false;
+
+    return (
+      this.isPerfect(root.left, depth, level + 1) &&
+      this.isPerfect(root.right, depth, level + 1)
+    );
   }
 }
 
